@@ -1,0 +1,147 @@
+// Common variables
+$background-color: #FFF;
+
+// Input variables
+$input-background-color: none;
+$input-passive-color: #9098A9;
+$input-active-color: #07F;
+
+
+html {
+  height: 100%;
+}
+
+body {
+  background: $background-color;
+  height: 100%;
+  display: grid;
+  font-family: Avenir;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+.outer {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+
+.input-form {
+  position: relative;
+  margin: 0 auto;
+  width: 280px;
+  height: 120px;
+  .input-form__submit-button {
+    border-radius: 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    margin: 10px 25%;
+    &:hover {
+      background-color: #458a45;
+      transition: all .2s ease;
+    }
+  }
+  .input-form__error-message {
+    color: #f72c36;
+    font-size: 13px;
+  }
+  .input-form__label {
+    z-index: -1;
+    position: absolute;
+    top: 16px;
+    left: 0;
+    font-size: 16px;
+    color: #9098A9;
+    font-weight: 500;
+    transform-origin: 0 0;
+    transition: all .2s ease;
+  }
+
+  .input-form__input {
+    width: 100%;
+    border: 0;
+    padding: 12px 0;
+    height: 48px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 2px solid $input-passive-color;
+    background: $input-background-color;
+    border-radius: 0;
+    transition: all .15s ease;
+    &:not(:placeholder-shown) {
+      border-bottom: 2px solid $input-passive-color;
+      + {
+        span {
+          color: $input-passive-color;
+          transform: translateY(-30px) scale(0.75);
+        }
+      }
+    }
+    &:focus {
+      outline: none;
+      border-bottom: 2px solid $input-active-color;
+      + {
+        span {
+          color: $input-active-color;
+          transform: translateY(-30px) scale(0.75);
+        }
+      }
+    }
+  }
+}
+
+.weather-info {
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, 0);
+  width: 100%;
+  max-width: 850px;
+  .weather-info__block {
+    float: left;
+    margin: 10px;
+    height: 150px;
+    width: 150px;
+    padding: 40px 0;
+    text-align: center;
+    color: #FFFFFF;
+    h3 {
+      display: initial;
+    }
+    h1 {
+      display: initial;
+    }
+  }
+  .weather-info__block--blue{
+    background-color: #33CCFF;
+  }
+  .weather-info__block--yellow {
+    background-color: #efbb34;
+  }
+  .weather-info__block--red {
+    background-color: #de0032;
+  }
+  .weather-info__block--green {
+    background-color: #5ecb00;
+  }
+  .weather-info__block--pink {
+    background-color: #cd28a5;
+  }
+}

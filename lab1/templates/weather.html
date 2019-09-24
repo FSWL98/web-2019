@@ -1,0 +1,24 @@
+{% if weather %}
+<div class="weather-info" id="weather">
+    <div class="weather-info__block weather-info__block--green">
+        <h3>Temperature</h3><br>
+        <h1>{{ weather.temp }} °C</h1>
+    </div>
+    <div class="weather-info__block weather-info__block--yellow">
+        <h3>Pressure</h3><br>
+        <h1>{{ weather.pressure }} hpa</h1>
+    </div>
+    <div class="weather-info__block weather-info__block--pink">
+        <h3>Clouds</h3><br>
+        <h1>{{ weather.clouds }}%</h1>
+    </div>
+    <div class="weather-info__block weather-info__block--blue">
+        <h3>Wind</h3><br>
+        <h1>{{ weather.wind }} m/h</h1>
+    </div>
+    <div class="weather-info__block weather-info__block--red">
+        <h3>Humidity</h3><br>
+        <h1>{{ weather.humidity }}%</h1>
+    </div>
+</div>
+{% endif %}

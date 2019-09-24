@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 1</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+
+</head>
+<body>
+
+<div class="outer">
+    <div class="middle" id="content">
+        <form id="ajaxupload" method="get" class="input-form">
+            <input class="input-form__input" name="cityname" type="text" pattern="[a-zA-Z-]+" oninvalid="setCustomValidity('Please enter English name without any other symbols')" oninput="setCustomValidity('')" placeholder="&nbsp;" value="" required="required"/>
+            <span class="input-form__label">Russian city name in English</span>
+            <span class="input-form__border"></span>
+            <input class="input-form__submit-button" id="submit" type="submit" value="Check weather">
+        </form>
+    </div>
+</div>
+
+<script src="assets/js/nunjucks.min.js"></script>
+<script src="assets/js/app.js"></script>
+
+<script>
+    nunjucks.configure('templates', { autoescape: true });
+</script>
+
+</body>
+</html>
