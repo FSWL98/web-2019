@@ -1,32 +1,35 @@
 'use strict';
 
-const appid = 'API KEY';
+const appid = '40b0b4c83ae14b352dc81156e5ea8e0c';
 
-function createURLRequestByCityName(cityName) {
+const createURLRequestByCityName = (cityName) => {
     return `https://api.openweathermap.org/data/2.5/find?q=${cityName.replace('-', ' ')},ru&units=metric&appid=${appid}`
-}
+};
 
-function getDataFromResponseJson(jsonObject) {
-    console.log(jsonObject);
+const getDataFromResponseJson = (jsonObject) => {
+    const {
+        main: {temp, pressure, humidity} = [0, 0, 0],
+        clouds: {all} = [0],
+        wind: {speed} = [0]
+    } = jsonObject;
+
     return {
         weather: {
-            temp: jsonObject.main.temp,
-            pressure: jsonObject.main.pressure,
-            clouds: jsonObject.clouds.all,
-            wind: jsonObject.wind.speed,
-            humidity: jsonObject.main.humidity,
+            temp, pressure, humidity,
+            clouds: all,
+            wind: speed
         }
     }
-}
+};
 
-function renderWeatherOnPage(response) {
+const renderWeatherOnPage = (response) => {
     const data = getDataFromResponseJson(response);
     return nunjucks.render('weather.html', data);
-}
+};
 
-function renderErrorMessage(message) {
+const renderErrorMessage = (message) => {
     return nunjucks.render('error_message.html', {error_message: message});
-}
+};
 
 function removeComponenFromPageByID(id) {
     let elem = document.getElementById(id);
@@ -43,36 +46,89 @@ function removeErrorMessage() {
     removeComponenFromPageByID("error-message");
 }
 
-document.getElementById('ajaxupload').addEventListener('submit', function(e) {
+function addWeatherComponent(data) {
+    let cont = document.getElementById('content');
+    cont.insertAdjacentHTML('beforeend', renderWeatherOnPage(data));
+}
+
+function addErrorMessage(data) {
+    const submitButton = document.getElementById('submit');
+    submitButton.insertAdjacentHTML('beforebegin', renderErrorMessage(data));
+}
+
+function connectionErrorIntoDOM(message) {
+    removeWeatherComponent();
+    removeErrorMessage();
+
+    addErrorMessage(message);
+}
+
+function insertResultIntoDOM(result) {
+    removeWeatherComponent();
+    removeErrorMessage();
+
+    const jsonObject = JSON.parse(result)["list"][0];
+
+    if (!jsonObject) {
+        addErrorMessage("This city doesn't exist in base.");
+        return;
+    }
+
+    addWeatherComponent(jsonObject);
+}
+
+const makeRequest = (method, url) => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.response);
+            } else {
+                reject({
+                    status: false,
+                    result: "Error connection. Try again later."
+                });
+            }
+        };
+
+        xhr.onerror = () => {
+            reject({
+                status: false,
+                result: "Error connection. Try again later."
+            });
+        };
+
+        xhr.send();
+    })
+};
+
+function callbackSubmitForm(e) {
     e.preventDefault();
 
     const formData = new FormData(this);
     const cityName = formData.get('cityname');
-    const xhr      = new XMLHttpRequest();
     const url = createURLRequestByCityName(cityName);
 
-    xhr.open('GET', url);
+    makeRequest('GET', url).then(insertResultIntoDOM, connectionErrorIntoDOM);
+}
 
-    xhr.onreadystatechange = function() {
-        const submitButton = document.getElementById('submit');
-        removeErrorMessage();
-        if ( xhr.readyState === 4 && xhr.status === 200 ) {
-            const data = JSON.parse(xhr.responseText)['list'][0];
+const inputCityNameValidation =(value) => {
+    return value.match(/^[a-zA-Z-]+$/);
+};
 
-            if (data === undefined) {
-                submitButton.insertAdjacentHTML('beforebegin', renderErrorMessage("This city doesn't exist in base."));
-                return;
-            }
+function validateInput(event) {
+    const field = event.target;
+    const value = field.value;
+    let message = '';
 
-            let cont = document.getElementById('content');
-            cont.insertAdjacentHTML('beforeend', renderWeatherOnPage(data));
+    if (!inputCityNameValidation(value)) {
+        message = 'Please enter English name without any other symbols';
+    }
 
-            return;
-        }
+    field.setCustomValidity(message);
+}
 
-        removeWeatherComponent();
-        submitButton.insertAdjacentHTML('beforebegin', renderErrorMessage('Error connection. Try again later.'));
-    };
-
-    xhr.send( formData );
-});
+document.getElementById('ajaxupload').addEventListener('submit', callbackSubmitForm);
+document.getElementById('cityname').addEventListener('input', validateInput);
