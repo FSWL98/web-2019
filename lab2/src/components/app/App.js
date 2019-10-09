@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from '../../assets/images/logo.svg';
 import './App.css';
-import FavoritesBlock from "../favorites-block/favorites-block";
+import Favorites from "../favorites/favorites";
 
 function App() {
 
@@ -26,9 +25,24 @@ function App() {
     }
   ];
 
+  const blocks = [
+    {
+      measurements: measurements,
+      cityinfo: cityinfo
+    },
+    {
+      measurements: measurements,
+      cityinfo: cityinfo
+    },
+    {
+      measurements: measurements,
+      cityinfo: cityinfo
+    }
+  ];
+
 
   return (
-      <FavoritesBlock measurements={measurements} cityinfo={cityinfo}/>
+      <Favorites/>
   );
 }
 

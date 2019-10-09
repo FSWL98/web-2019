@@ -1,15 +1,15 @@
 import React from "react";
-import {Container} from "react-bootstrap";
 import CityTemperatureMiniBlock from "../city-temperature-mini-block/city-temperature-mini-block";
 import MeasureBlock from "../mesaure-block/measure-block";
+import './favorites-block.scss'
 
 
 function FavoritesBlockView(props) {
     return (
-        <Container>
-            <CityTemperatureMiniBlock cityinfo={props.cityinfo}/>
+        <div className="favorites-block">
+            <CityTemperatureMiniBlock cityinfo={props.cityinfo} closeAction={props.closeAction}/>
             <MeasureBlock measurements={props.measurements}/>
-        </Container>
+        </div>
     );
 }
 
