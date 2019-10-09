@@ -1,15 +1,24 @@
 import { createStore } from 'redux';
-import rootReducer from '../reducers/reducers';
+import {rootReducer, initialState} from '../reducers/index';
 
-const initialState = {
-    cities: []
-};
 
-const persistedState = localStorage.getItem('reduxState') ?
-    JSON.parse(localStorage.getItem('reduxState')) : initialState;
+const favoritesKeyStorage = "favorites";
 
-export default createStore(
+const favoritesStorage = localStorage.getItem(favoritesKeyStorage);
+let persistedState = initialState;
+
+if (favoritesStorage) {
+    persistedState.favourites = JSON.parse(favoritesStorage);
+}
+
+export const store = createStore(
     rootReducer,
     persistedState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+store.subscribe(()=>{
+    localStorage.setItem(favoritesKeyStorage, JSON.stringify(store.getState().favourites))
+});
+
+export default store;

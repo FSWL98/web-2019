@@ -1,12 +1,14 @@
 import React from 'react';
 import {Col, Row} from "react-bootstrap";
-
+import './measure-block-item.scss'
 
 function MeasureBlockItem(props) {
+    const {name, text, color = "gray"} = props;
+
     return (
-        <Row className="bg-secondary d-flex mt-md-1">
-            <Col>{props.name}</Col>
-            <Col md="auto">{props.text}</Col>
+        <Row className={`measure-block-item measure-block-item--${color} d-flex mt-md-1`}>
+            <Col>{name}</Col>
+            <Col md="auto">{text}</Col>
         </Row>
     );
 }

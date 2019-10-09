@@ -3,6 +3,8 @@ import FavoritesBlockView from "./favorites-block-view";
 import './favorites-block.scss'
 import Preloader from "../preloader/preloader";
 import {getWeatherInfo} from "../../utils/OpenWeatherAPI";
+import {addErrorModal} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 class FavoritesBlock extends React.Component {
     constructor(props) {
@@ -17,53 +19,19 @@ class FavoritesBlock extends React.Component {
         }
     }
 
-    static parseAnswer(jsonObject) {
-        console.log(jsonObject);
-        const {
-            name = "",
-            weather = [{"icon": "03d"}],
-            main: {temp, pressure, humidity} = [0, 0, 0],
-            clouds: {all} = [0],
-            wind: {speed} = [0]
-        } = jsonObject;
-        console.log(jsonObject);
-
-        const cityinfo = {
-            name: name,
-            temperature: temp,
-            icon: weather[0]['icon']
-        };
-
-        const measurements = [
-            {
-                name: "Wind",
-                text: `${speed} m/s`
-            },
-            {
-                name: "Clouds",
-                text: `${all} %`
-            },
-            {
-                name: "Pressure",
-                text: `${pressure} hpa`
-            },
-            {
-                name: "Humidity",
-                text: `${humidity} %`
-            }
-        ];
-
-        return {cityinfo, measurements};
-    }
-
     makeRequest() {
-        const {cityName} = this.props;
+        const {cityName, closeAction, errorModal} = this.props;
 
         getWeatherInfo(cityName).then(result => {
             const {status, message = "", weather} = result;
 
+            if (status === 1) {
+                errorModal(message);
+                closeAction();
+                return;
+            }
 
-            if (!status) {
+            if (status === 2) {
                 this.setState({isLoaded: true,
                     isError: true,
                     errorMessage: message,
@@ -93,12 +61,13 @@ class FavoritesBlock extends React.Component {
 
     render() {
         const {measurements, cityinfo, isLoaded, isError, errorMessage} = this.state;
+        const {closeAction} = this.props;
 
         return (
             isLoaded ? isError ? <div className="favorites-block">{errorMessage}</div> :
                                  <FavoritesBlockView measurements={measurements}
                                                      cityinfo={cityinfo}
-                                                     closeAction={this.props.closeAction}/> :
+                                                     closeAction={closeAction}/> :
                      <Preloader className="favorites-block"/>
 
         )
@@ -106,4 +75,15 @@ class FavoritesBlock extends React.Component {
 
 }
 
-export default FavoritesBlock;
+
+const mapDispatchToProps = dispatch => {
+    return {
+        errorModal: errorMessage => dispatch(addErrorModal(errorMessage)),
+    }
+};
+
+const mapStateToProps = (state) => ({
+    ...state
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesBlock);

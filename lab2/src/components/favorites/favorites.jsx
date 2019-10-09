@@ -30,8 +30,9 @@ class Favorites extends React.Component {
 }
 
 const mapStateToProps = state => {
+    console.log(state);
     return {
-        cities: state.cities
+        cities: state.favourites.cities
     };
 };
 

@@ -1,0 +1,18 @@
+.measure-block-item {
+  color: #ffff;
+  &.measure-block-item--red {
+    background-color: #de0032;
+  }
+  &.measure-block-item--green {
+    background-color: #5ecb00;
+  }
+  &.measure-block-item--blue {
+    background-color: #33CCFF;
+  }
+  &.measure-block-item--yellow {
+    background-color: #efbb34;
+  }
+  &.measure-block-item--gray {
+    background-color: rgba(114, 114, 110, 0.7);
+  }
+}

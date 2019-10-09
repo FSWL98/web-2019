@@ -7,10 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
 
-store.subscribe(()=>{
-    localStorage.setItem('reduxState', JSON.stringify(store.getState()))
-});
-
 ReactDOM.render(
     <Provider store={store}>
         <App />

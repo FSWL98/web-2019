@@ -18,19 +18,23 @@ const parseWeatherInfo = (jsonObject) => {
     const measurements = [
         {
             name: "Wind",
-            text: `${speed} m/s`
+            text: `${speed} m/s`,
+            color: "blue"
         },
         {
             name: "Clouds",
-            text: `${all} %`
+            text: `${all} %`,
+            color: "red"
         },
         {
             name: "Pressure",
-            text: `${pressure} hpa`
+            text: `${pressure} hpa`,
+            color: "yellow"
         },
         {
             name: "Humidity",
-            text: `${humidity} %`
+            text: `${humidity} %`,
+            color: "green"
         }
     ];
 
@@ -46,19 +50,25 @@ export const getWeatherInfo = (cityName) => {
     return requestToAPI(cityName)
         .then(res => res.json())
         .then((result) => {
+                const errorMessage = {
+                    status: 1,
+                    message: "This city does not exist in base"
+                };
+
+                if (!result || !result.list) {
+                    return errorMessage;
+                }
+
                 const resultCity = result.list[0];
 
                 if (!resultCity) {
-                    return {
-                        status: 0,
-                        message: "This city does not exist in base"
-                    }
+                    return errorMessage;
                 }
 
                 const parsedAnswer = parseWeatherInfo(resultCity);
 
                 return {
-                    status: 1,
+                    status: 0,
                     weather: {
                         cityinfo: parsedAnswer.cityinfo,
                         measurements: parsedAnswer.measurements
@@ -67,7 +77,7 @@ export const getWeatherInfo = (cityName) => {
             },
             (error) => {
                 return {
-                    status: 0,
+                    status: 2,
                     message: "Server is not available! "
                 }
             });

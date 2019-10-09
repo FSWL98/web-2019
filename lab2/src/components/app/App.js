@@ -1,49 +1,95 @@
 import React from 'react';
 import './App.css';
 import Favorites from "../favorites/favorites";
+import ErrorModal from "../error-modal/error-modal";
+import {connect} from "react-redux";
 
-function App() {
+class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const cityinfo = {
-    name: "Mocow",
-    temperature: "10",
-    icon: "10d"
-  };
-
-  const measurements = [
-    {
-      name: "Ветер",
-      text: "Отлично"
-    },
-    {
-      name: "Ветер",
-      text: "Отлично"
-    },
-    {
-      name: "Ветер",
-      text: "Отлично"
+    this.state = {
+      modalShow: false
     }
-  ];
+  }
 
-  const blocks = [
-    {
-      measurements: measurements,
-      cityinfo: cityinfo
-    },
-    {
-      measurements: measurements,
-      cityinfo: cityinfo
-    },
-    {
-      measurements: measurements,
-      cityinfo: cityinfo
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {event} = this.props;
+    const {errorMessage} = event;
+
+    console.log(prevProps.event);
+
+    if (errorMessage && prevProps.event && prevProps.event.errorMessage !== errorMessage) {
+      this.setState({modalShow: true});
     }
-  ];
+  }
 
+  closeModal() {
+    this.setState({modalShow: false});
+    const {event} = this.props;
+    let {errorMessage} = event;
 
-  return (
-      <Favorites/>
-  );
+    if (errorMessage) {
+      this.props.event.errorMessage = null;
+    }
+  }
+
+  render() {
+    const cityinfo = {
+      name: "Mocow",
+      temperature: "10",
+      icon: "10d"
+    };
+
+    const measurements = [
+      {
+        name: "Ветер",
+        text: "Отлично"
+      },
+      {
+        name: "Ветер",
+        text: "Отлично"
+      },
+      {
+        name: "Ветер",
+        text: "Отлично"
+      }
+    ];
+
+    const blocks = [
+      {
+        measurements: measurements,
+        cityinfo: cityinfo
+      },
+      {
+        measurements: measurements,
+        cityinfo: cityinfo
+      },
+      {
+        measurements: measurements,
+        cityinfo: cityinfo
+      }
+    ];
+
+    const {modalShow} = this.state;
+    const {event} = this.props;
+    const {errorMessage} = event;
+
+    return (<div>
+          <Favorites/>
+          <ErrorModal errorMessage={errorMessage} show={modalShow}
+                      onHide={() => this.closeModal()}/>
+        </div>
+
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    event: state.events.event
+  }
+};
+
+export default connect(mapStateToProps)(App);

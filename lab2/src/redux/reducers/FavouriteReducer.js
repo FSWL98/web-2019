@@ -1,8 +1,10 @@
 import { ADD_NEW_FAVORITE_CITY, REMOVE_FAVORITE_CITY } from '../actions/actions';
 
+export const initialState = {
+    cities: []
+};
 
-
-function rootReducer(state, action) {
+export const favouriteReducer = (state = initialState, action) => {
     switch(action.type) {
         case ADD_NEW_FAVORITE_CITY:
             if (state.cities.find((el) => el.name === action.name)) {
@@ -18,7 +20,6 @@ function rootReducer(state, action) {
                 ]
             };
         case REMOVE_FAVORITE_CITY:
-            console.log(state.cities.filter((city, index) => index !== action.id));
             return {
                 cities: state.cities.filter((city, index) => city.name !== action.name)
             };
@@ -26,6 +27,6 @@ function rootReducer(state, action) {
         default:
             return state;
     }
-}
+};
 
-export default rootReducer;
+export default favouriteReducer;
