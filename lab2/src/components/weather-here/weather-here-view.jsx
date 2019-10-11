@@ -4,7 +4,6 @@ import WeatherBlock from "../weather-block/weather-block";
 
 const WeatherHereView = (props) =>  {
     const {coordinates, updateGeo} = props;
-    console.log(coordinates);
 
     return (
         <Container className="mb-5">
