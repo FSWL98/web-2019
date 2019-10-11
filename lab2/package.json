@@ -13,7 +13,8 @@
     "redux": "^4.0.4"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "export HTTPS=true&&react-scripts start",
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"

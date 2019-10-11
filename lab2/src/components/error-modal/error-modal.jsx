@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Modal} from "react-bootstrap";
 
-function ErrorModal(props) {
+const ErrorModal = (props) => {
     const {errorMessage, show, onHide} = props;
     return (
         <Modal
@@ -23,6 +23,6 @@ function ErrorModal(props) {
             </Modal.Footer>
         </Modal>
     );
-}
+};
 
 export default ErrorModal;

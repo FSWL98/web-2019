@@ -1,7 +1,7 @@
 import React from "react";
 import './preloader.scss'
 
-function Preloader(props) {
+const Preloader = (props) => {
     let className = "d-flex align-items-center justify-content-center";
 
     if (props.className) {
@@ -13,6 +13,6 @@ function Preloader(props) {
             <div className="preloader"/>
         </div>
     )
-}
+};
 
 export default Preloader;

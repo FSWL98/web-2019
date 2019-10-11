@@ -1,13 +1,13 @@
 import React from "react";
 import CityTemperatureMiniBlock from "../city-temperature-mini-block/city-temperature-mini-block";
 import MeasureBlock from "../mesaure-block/measure-block";
-import './favorites-block.scss'
+import './weather-block.scss'
 import {Card} from "react-bootstrap";
 
 
-function FavoritesBlockView(props) {
+function WeatherBlockViewMini(props) {
     return (
-        <Card className="favorites-block">
+        <Card className="weather-block--mini">
             <Card.Body>
                 <CityTemperatureMiniBlock cityinfo={props.cityinfo} closeAction={props.closeAction}/>
                 <MeasureBlock measurements={props.measurements}/>
@@ -17,4 +17,4 @@ function FavoritesBlockView(props) {
 }
 
 
-export default FavoritesBlockView;
+export default WeatherBlockViewMini;

@@ -1,5 +1,6 @@
 .measure-block-item {
   color: #ffff;
+  font-size: 15pt;
   &.measure-block-item--red {
     background-color: #de0032;
   }
@@ -11,6 +12,9 @@
   }
   &.measure-block-item--yellow {
     background-color: #efbb34;
+  }
+  &.measure-block-item--pink {
+    background-color: #cd28a5;
   }
   &.measure-block-item--gray {
     background-color: rgba(114, 114, 110, 0.7);

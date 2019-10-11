@@ -1,36 +1,37 @@
 import React from "react";
-import FavoritesBlock from "../favorites-block/favorites-block";
-import "./favorites.scss"
+import WeatherBlock from "../weather-block/weather-block";
 import InputField from "../input-field/input-field";
 import {addNewFavoriteCity, removeFavoriteCity} from "../../redux/actions/actions";
 import {connect} from "react-redux";
+import {Col, Container, Row} from "react-bootstrap";
 
 
-class Favorites extends React.Component {
+const Favorites = (props) =>  {
+    const {addNewFavoriteCity, removeFavoriteCity, cities} = props;
+    const elements = cities.map((city, id) =>
+        <WeatherBlock key={city.name} cityName={city.name} closeAction={() => removeFavoriteCity(city.name)}/>
+    );
 
-    render() {
-        const {addNewFavoriteCity, removeFavoriteCity, cities} = this.props;
-        const elements = cities.map((city, id) =>
-            <FavoritesBlock key={city.name} cityName={city.name} closeAction={() => removeFavoriteCity(city.name)}/>
-        );
+    return (
+        <Container>
+            <Row className="m-0">
+                <Col className="p-0">
+                    <h1 className="pl-0">Favorites</h1>
+                </Col>
 
-        return (
-            <div className="favorites">
-                <div className="d-flex">
-                    <h1 className="col-md-7 pl-0">Favorites</h1>
+                <Col className="p-0 d-flex justify-content-end">
                     <InputField buttonAction={addNewFavoriteCity}/>
-                </div>
+                </Col>
+            </Row>
 
-                <div className="d-flex flex-wrap">
-                    {elements}
-                </div>
-            </div>
-        )
-    }
-}
+            <Row className="m-0 d-flex flex-wrap justify-content-between">
+                {elements}
+            </Row>
+        </Container>
+    )
+};
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
         cities: state.favourites.cities
     };

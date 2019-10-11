@@ -1,7 +1,7 @@
 import React from "react";
 import './circle-button.scss';
 
-function CircleButton(props) {
+const CircleButton = (props) => {
     let {customLabel = 'X', buttonAction, buttonType = "button", isDisabled = false, className = ""} = props;
 
     return (
@@ -11,6 +11,6 @@ function CircleButton(props) {
             </button>
         </div>
     )
-}
+};
 
 export default CircleButton;

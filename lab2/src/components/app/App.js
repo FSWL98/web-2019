@@ -3,6 +3,7 @@ import './App.css';
 import Favorites from "../favorites/favorites";
 import ErrorModal from "../error-modal/error-modal";
 import {connect} from "react-redux";
+import WeatherHere from "../weather-here/weather-here";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,12 +14,9 @@ class App extends React.Component {
     }
   }
 
-
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {event} = this.props;
     const {errorMessage} = event;
-
-    console.log(prevProps.event);
 
     if (errorMessage && prevProps.event && prevProps.event.errorMessage !== errorMessage) {
       this.setState({modalShow: true});
@@ -36,47 +34,13 @@ class App extends React.Component {
   }
 
   render() {
-    const cityinfo = {
-      name: "Mocow",
-      temperature: "10",
-      icon: "10d"
-    };
-
-    const measurements = [
-      {
-        name: "Ветер",
-        text: "Отлично"
-      },
-      {
-        name: "Ветер",
-        text: "Отлично"
-      },
-      {
-        name: "Ветер",
-        text: "Отлично"
-      }
-    ];
-
-    const blocks = [
-      {
-        measurements: measurements,
-        cityinfo: cityinfo
-      },
-      {
-        measurements: measurements,
-        cityinfo: cityinfo
-      },
-      {
-        measurements: measurements,
-        cityinfo: cityinfo
-      }
-    ];
-
     const {modalShow} = this.state;
     const {event} = this.props;
     const {errorMessage} = event;
 
-    return (<div>
+    return (
+        <div className="m-3">
+          <WeatherHere/>
           <Favorites/>
           <ErrorModal errorMessage={errorMessage} show={modalShow}
                       onHide={() => this.closeModal()}/>
