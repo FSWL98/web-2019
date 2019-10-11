@@ -1,4 +1,4 @@
-# Solve for Laboratory work 1
+# Solve for Laboratory work 2
 
 ### Task
 
@@ -31,7 +31,7 @@ const appid = '00000000000000000000000000000000';
 Run in root project next command 
 ```bash 
 >>> npm install
->>> npm run
+>>> npm start
 ```
 
 Next open in the browser the link: http://0.0.0.0:8000
