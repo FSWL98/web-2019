@@ -1,6 +1,6 @@
 'use strict';
 
-const appid = '40b0b4c83ae14b352dc81156e5ea8e0c';
+const appid = 'APP_ID';
 
 const createURLRequestByCityName = (cityName) => {
     return `https://api.openweathermap.org/data/2.5/find?q=${cityName.replace('-', ' ')},ru&units=metric&appid=${appid}`
