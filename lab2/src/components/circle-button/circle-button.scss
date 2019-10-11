@@ -1,0 +1,19 @@
+.circle-button {
+  width: 30px;
+  cursor: pointer;
+  border-style: none;
+  color: white;
+  background-color: #3498db;
+  border-radius: 50%;
+  text-align: center;
+  &:before {
+    content:'';
+    display:inline-block;
+  }
+  &:active {
+    background-color: #2980b9;
+  }
+  &:disabled {
+    background-color: #9098A9;
+  }
+}
