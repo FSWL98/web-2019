@@ -13,7 +13,7 @@ const WeatherHereView = (props) =>  {
                 <div className="w-25 invisible">f</div>
             </Row>
 
-            <WeatherBlock big={true} coordinates={coordinates}/>
+            <WeatherBlock big={true} coordinates={coordinates} id="main-weather"/>
         </Container>
     )
 };

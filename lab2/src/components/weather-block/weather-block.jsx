@@ -3,10 +3,11 @@ import WeatherBlockViewMini from "./weather-block-view-mini";
 import WeatherBlockViewBig from "./weather-block-view-big";
 import './weather-block.scss'
 import Preloader from "../preloader/preloader";
-import {getWeatherInfoByName, getWeatherInfoByCoordinates} from "../../utils/OpenWeatherAPI";
 import {addErrorModal} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 import {Card} from "react-bootstrap";
+import {getWeatherByCityCoordinates, getWeatherByCityName} from "../../redux/actions/api-actions";
+
 
 class WeatherBlock extends React.Component {
     constructor(props) {
@@ -22,47 +23,47 @@ class WeatherBlock extends React.Component {
     }
 
     processResponse(response) {
+        if (Object.keys(response).length === 0) {
+            return {isLoaded: false};
+        }
+
         const {closeAction, errorModal} = this.props;
 
-        response.then(result => {
-            const {status, message = "", weather} = result;
+        const {status, message = "", weather = null} = response;
 
-            if (status === 1) {
-                errorModal(message);
+        if (status === 1) {
+            errorModal(message);
 
-                if (closeAction) {
-                    closeAction();
-                }
-                return;
+            if (closeAction) {
+                closeAction();
             }
+            return {isLoaded: false};
+        }
 
-            if (status === 2) {
-                this.setState({isLoaded: true,
-                    isError: true,
-                    errorMessage: message,
-                    cityinfo: null,
-                    measurements: null});
+        if (status === 2) {
+            return {isLoaded: true,
+                isError: true,
+                errorMessage: message};
+        }
 
-                return;
-            }
-
-            this.setState({isLoaded: true,
-                isError: false,
-                errorMessage: message,
-                cityinfo: weather.cityinfo,
-                measurements: weather.measurements});
-        });
+        return {isLoaded: true,
+            isError: false,
+            errorMessage: message,
+            cityinfo: weather.cityinfo,
+            measurements: weather.measurements};
     }
 
     makeRequest() {
-        const {cityName = 'Saint-Petersburg', coordinates = undefined} = this.props;
+        this.setState({isLoaded: false});
+        const {cityName = 'Saint-Petersburg', coordinates = undefined,
+            getWeatherByCityCoordinates, getWeatherByCityName} = this.props;
 
         if (coordinates && Object.keys(coordinates).length !== 0) {
-            this.processResponse(getWeatherInfoByCoordinates(coordinates.lat, coordinates.lon));
+            getWeatherByCityCoordinates(coordinates, this.props.id);
             return;
         }
 
-        this.processResponse(getWeatherInfoByName(cityName));
+        getWeatherByCityName(cityName, this.props.id);
     }
 
     componentDidMount() {
@@ -76,8 +77,10 @@ class WeatherBlock extends React.Component {
     }
 
     render() {
-        const {measurements, cityinfo, isLoaded, isError, errorMessage} = this.state;
-        const {closeAction, big = false} = this.props;
+        const {closeAction, big = false, apiResponse} = this.props;
+        const answer = this.processResponse(apiResponse);
+
+        const {measurements, cityinfo, isLoaded, isError, errorMessage} = answer;
 
         let mainStyleClass = 'weather-block--mini';
 
@@ -108,15 +111,18 @@ class WeatherBlock extends React.Component {
 
 }
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        apiResponse: state.api[ownProps.id]
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         errorModal: errorMessage => dispatch(addErrorModal(errorMessage)),
+        getWeatherByCityName: (cityname, fromID) => dispatch(getWeatherByCityName(cityname, fromID)),
+        getWeatherByCityCoordinates: (coordinates, fromID) => dispatch(getWeatherByCityCoordinates(coordinates, fromID))
     }
 };
-
-const mapStateToProps = (state) => ({
-    ...state
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeatherBlock);

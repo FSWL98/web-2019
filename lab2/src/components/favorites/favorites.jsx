@@ -2,14 +2,18 @@ import React from "react";
 import WeatherBlock from "../weather-block/weather-block";
 import InputField from "../input-field/input-field";
 import {addNewFavoriteCity, removeFavoriteCity} from "../../redux/actions/actions";
+import {addComponentIDTOApi} from "../../redux/actions/api-actions";
 import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 
 
 const Favorites = (props) =>  {
-    const {addNewFavoriteCity, removeFavoriteCity, cities} = props;
-    const elements = cities.map((city, id) =>
-        <WeatherBlock key={city.name} cityName={city.name} closeAction={() => removeFavoriteCity(city.name)}/>
+    const {addNewFavoriteCity, removeFavoriteCity, cities, addComponentIDTOApi} = props;
+    cities.forEach((city) => {
+        addComponentIDTOApi(`favorite-${city.name}`);
+    });
+    const elements = cities.map((city) =>
+        <WeatherBlock id={`favorite-${city.name}`} key={city.name} cityName={city.name} closeAction={() => removeFavoriteCity(city.name)}/>
     );
 
     return (
@@ -40,7 +44,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addNewFavoriteCity: (name) => dispatch(addNewFavoriteCity(name)),
-        removeFavoriteCity: id => dispatch(removeFavoriteCity(id))
+        removeFavoriteCity: id => dispatch(removeFavoriteCity(id)),
+        addComponentIDTOApi: componentID => dispatch(addComponentIDTOApi(componentID))
     }
 };
 

@@ -2,8 +2,16 @@ import React from "react";
 import WeatherHereView from "./weather-here-view";
 import {updateGeoLocation} from "../../redux/actions/actions";
 import {connect} from "react-redux";
+import {addComponentIDTOApi} from "../../redux/actions/api-actions";
 
 class WeatherHere extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        const {addComponentIDTOApi} = this.props;
+        addComponentIDTOApi("main-weather");
+    }
 
     updateLocation() {
         const {updateGeo} = this.props;
@@ -20,7 +28,7 @@ class WeatherHere extends React.Component {
                     lon: position.coords.longitude
                 });
             },
-            (err) => {
+            () => {
                 updateGeo({});
             }
         )
@@ -49,6 +57,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateGeo: coordinates => dispatch(updateGeoLocation(coordinates)),
+        addComponentIDTOApi: componentID => dispatch(addComponentIDTOApi(componentID))
     }
 };
 

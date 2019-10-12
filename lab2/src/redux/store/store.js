@@ -1,5 +1,7 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import {rootReducer, initialState} from '../reducers/index';
+import APIWatcher from "../../sagas";
+import createSagaMiddleware from 'redux-saga';
 
 const restoreDataFromLocalStorageByKey = (key) => {
     const storageData = localStorage.getItem(key);
@@ -27,11 +29,14 @@ if (geo) {
     persistedState.geo = geo;
 }
 
+const APIMiddleware = createSagaMiddleware();
+
 export const store = createStore(
     rootReducer,
     persistedState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(APIMiddleware)
 );
+APIMiddleware.run(APIWatcher);
 
 store.subscribe(()=>{
     localStorage.setItem(favoritesKeyStorage, JSON.stringify(store.getState().favourites));

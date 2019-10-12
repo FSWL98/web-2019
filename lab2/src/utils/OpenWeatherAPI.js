@@ -60,7 +60,8 @@ const processResponse = (response) => {
         .then((result) => {
                 const errorMessage = {
                     status: 1,
-                    message: "This city does not exist in base"
+                    message: "This city does not exist in base",
+                    weather: null
                 };
 
                 if (!result || !result.list) {
@@ -77,16 +78,18 @@ const processResponse = (response) => {
 
                 return {
                     status: 0,
+                    message: null,
                     weather: {
                         cityinfo: parsedAnswer.cityinfo,
-                        measurements: parsedAnswer.measurements
+                        measurements: parsedAnswer.measurements,
                     }
                 };
             },
-            (error) => {
+            () => {
                 return {
                     status: 2,
-                    message: "Server is not available! "
+                    message: "Server is not available!",
+                    weather: null
                 }
             });
 };

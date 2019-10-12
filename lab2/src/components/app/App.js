@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Favorites from "../favorites/favorites";
 import ErrorModal from "../error-modal/error-modal";
 import {connect} from "react-redux";
