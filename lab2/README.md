@@ -36,6 +36,15 @@ Run in root project next command
 
 Next open in the browser the link: http://0.0.0.0:8000
 
+## Usage
+
+Run in root project next command 
+```bash 
+>>> npm run test
+```
+
+Note: you should pass **appid*
+
 ## FAQ
 
 **Q:** It works only with Russian cities? 

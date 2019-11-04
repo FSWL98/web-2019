@@ -29,8 +29,16 @@ Run in root project next command
 
 Next open in the browser the link: http://0.0.0.0:8000
 
+## Tests
+
+Run test.html in tests folder.
+
+Note: you should pass **appid**.
+
 ## Dependencies
 * [nunjucks 3.2.0](https://mozilla.github.io/nunjucks)
+* [mocha 4.0.1](https://mochajs.org)
+* [chai 4.1.2](https://www.chaijs.com)
 
 ## FAQ
 
