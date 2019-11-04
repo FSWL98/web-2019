@@ -9,8 +9,8 @@ const createURLRequestByCityName = (cityName) => {
 const getDataFromResponseJson = (jsonObject) => {
     const {
         main: {temp, pressure, humidity} = [0, 0, 0],
-        clouds: {all} = [0],
-        wind: {speed} = [0]
+        clouds: {all} = 0,
+        wind: {speed} = 0
     } = jsonObject;
 
     return {
@@ -67,14 +67,14 @@ function insertResultIntoDOM(result) {
     removeWeatherComponent();
     removeErrorMessage();
 
-    const jsonObject = JSON.parse(result)["list"][0];
+    const jsonObject = JSON.parse(result);
 
-    if (!jsonObject) {
+    if (!jsonObject || !jsonObject['list'] || !jsonObject['list'][0]) {
         addErrorMessage("This city doesn't exist in base.");
         return;
     }
 
-    addWeatherComponent(jsonObject);
+    addWeatherComponent(jsonObject['list'][0]);
 }
 
 const makeRequest = (method, url) => {

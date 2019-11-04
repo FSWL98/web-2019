@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link href="https://unpkg.com/mocha@4.0.1/mocha.css" rel="stylesheet" />
+</head>
+<body>
+<div id="mocha"></div>
+<div id="test"></div>
+<div id="submit"></div>
+<div id="content"></div>
+
+<script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
+<script src="https://unpkg.com/mocha@4.0.1/mocha.js"></script>
+
+<script>mocha.setup('bdd')</script>
+<script src="../assets/js/nunjucks.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="tests.js"></script>
+<script>
+    nunjucks.configure('../templates', { autoescape: true });
+    mocha.checkLeaks();
+    mocha.run();
+</script>
+</body>
+</html>
