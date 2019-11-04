@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "export HTTPS=true&&react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "test": "react-scripts test --silent"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,5 +32,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "react-test-renderer": "^16.11.0"
   }
 }

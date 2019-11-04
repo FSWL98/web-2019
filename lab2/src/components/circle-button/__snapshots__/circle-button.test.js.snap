@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CircleButton default 1`] = `
+<div
+  className=" d-flex justify-content-end p-0 m-0"
+>
+  <button
+    className="circle-button"
+    disabled={false}
+    type="button"
+  >
+    X
+  </button>
+</div>
+`;
+
+exports[`CircleButton disable 1`] = `
+<div
+  className=" d-flex justify-content-end p-0 m-0"
+>
+  <button
+    className="circle-button"
+    disabled={true}
+    type="button"
+  >
+    X
+  </button>
+</div>
+`;

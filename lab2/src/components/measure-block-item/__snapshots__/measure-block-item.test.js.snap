@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basic MeasureBlockItem 1`] = `
+<div
+  className="measure-block-item measure-block-item--gray d-flex mt-md-1 justify-content-between row"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="d-flex justify-content-end font-weight-light col"
+  />
+</div>
+`;
+
+exports[`Blue MeasureBlockItem 1`] = `
+<div
+  className="measure-block-item measure-block-item--blue d-flex mt-md-1 justify-content-between row"
+>
+  <div
+    className="col"
+  />
+  <div
+    className="d-flex justify-content-end font-weight-light col"
+  />
+</div>
+`;

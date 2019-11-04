@@ -14,7 +14,7 @@ export const apiReducer = (state = initialState, action) => {
 
             state[fromID] = {
                 status: action.state.status,
-                errorMessage: action.state.message,
+                message: action.state.message,
                 weather: action.state.weather
             };
 
